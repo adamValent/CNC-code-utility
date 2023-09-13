@@ -41,7 +41,7 @@ def get_coords(match: re.Match[str]) -> Tuple[float, float]:
        as a pair of floats.
     
        Keyword arguments:
-       match -- matched substring of original line
+       match -- matched substring of the original line
     """
 
     x_coord = float(match.group(1))
@@ -52,17 +52,17 @@ def get_coords(match: re.Match[str]) -> Tuple[float, float]:
 def parse_line(match: re.Match[str], blocks: DefaultDict, 
                out: TextIOWrapper, tool_def: str) -> str:
     """Extracts XY coordinates and tool definition, if present. Modifies Y coordinate
-       if X > 50 and stores data in dictionary if tool definition is set.
+       if X > 50 and stores data in the dictionary if tool definition is set.
        Returns new tool definition.
        
        Keyword arguments:
-       match    -- matched substring of original line.
-       blocks   -- dictionary which stores set of coordinates associated with tool definition.
+       match    -- matched substring of the original line.
+       blocks   -- dictionary which stores a set of coordinates associated with tool definition.
        tool_def -- string representing tool definition. Indicates which block is being processed.
         """
 
     if match.group(3) is not None:
-        # set tool_def if it is present in current line
+        # set tool_def if it is present in the current line
         tool_def = match.group(3)
 
     x_coord, y_coord = get_coords(match)
@@ -79,7 +79,7 @@ def parse_line(match: re.Match[str], blocks: DefaultDict,
     return tool_def
 
 
-def funkce1(path: str) -> None:
+def fun1(path: str) -> None:
     """Parses input CNC program file. 
 
        Sorts blocks of CNC code according to tool definition in ascending order. 
@@ -166,7 +166,7 @@ def print_min_max(ex: dict[float]) -> None:
     print('/'.join(extremas))
 
 
-def funkce2(path: str) -> None:
+def fun2(path: str) -> None:
     """Finds and prints minimum and maximum values for 
        X and Y from CNC program code blocks.
 
@@ -187,16 +187,16 @@ def funkce2(path: str) -> None:
                 match = re.search(pattern, line)
                 
                 if match:
-                    # check if code blocks were reached
+                    # Check if code blocks were reached
                     if not in_block:
                         in_block = match.group(3) is not None
 
-                    # search for min/max values inside code blocks
+                    # Search for min/max values inside code blocks
                     if in_block:
                         xy_coords = get_coords(match)
                         update_min_max(xy_coords, extremas)
                 
-                # reaching the end of code blocks
+                # Reaching the end of code blocks
                 elif in_block:
                     break
     except OSError:
@@ -206,11 +206,11 @@ def funkce2(path: str) -> None:
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-funkce1", action="store")
-parser.add_argument("-funkce2", action="store")
+parser.add_argument("-fun1", action="store")
+parser.add_argument("-fun2", action="store")
 args = parser.parse_args()
 
-if args.funkce1:
-    funkce1(args.funkce1)
-elif args.funkce2:
-    funkce2(args.funkce2)
+if args.fun1:
+    fun1(args.fun1)
+elif args.fun2:
+    fun2(args.fun2)
